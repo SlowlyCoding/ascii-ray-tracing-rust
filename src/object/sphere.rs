@@ -20,6 +20,7 @@ impl Object for Sphere {
             let t2 = (-b - discriminant.sqrt()) / 2.0*a; 
             let t = f64::min(t1, t2);
             if t > ray.min_t && t < ray.max_t {
+                ii.t = t;
                 ii.point = ray.point(t);
                 ii.normal = (ray.point(t)-self.center).normalize();
                 ii.reflective_surface = self.reflective;

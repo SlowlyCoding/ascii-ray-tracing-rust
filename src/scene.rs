@@ -13,6 +13,18 @@ pub struct IntersectionInformation {
     pub reflective_surface: bool,
 }
 
+impl IntersectionInformation {
+    pub fn new_empty() -> IntersectionInformation {
+        IntersectionInformation {
+            t: 0.0,
+            point: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
+            normal: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
+            reflective_surface: false,
+        }
+    }
+}
+
+
 pub struct Scene {
     pub camera: camera::Camera,
     pub objects: Vec<Box<dyn object::Object>>,
@@ -39,12 +51,7 @@ impl Scene {
     }
     pub fn trace_ray(&self, ray: &ray::Ray) -> char {
         let mut pixel = ' '; // default background pixel
-        let mut ii = IntersectionInformation {
-            t: 0.0,
-            point: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
-            normal: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
-            reflective_surface: false,
-        };
+        let mut ii = IntersectionInformation::new_empty();
         if self.closest_intersection(&ray, &mut ii) {
             if ii.reflective_surface {
                 let reflected_ray_direction = ray.direction - ii.normal.scale(vector::dot(&ray.direction, &ii.normal)*2.0);
@@ -72,12 +79,7 @@ impl Scene {
     // returns the closest intersection of the whole scene
     pub fn closest_intersection(&self, ray: &ray::Ray, ii: &mut IntersectionInformation) -> bool {
         let mut any_intersection: bool = false;
-        let mut temp_ii = IntersectionInformation {
-            t: 0.0,
-            point: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
-            normal: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
-            reflective_surface: false,
-        };
+        let mut temp_ii = IntersectionInformation::new_empty();
         let mut closest_t = ray.max_t;
         for i in 0..self.objects.len() {
             if self.objects[i].intersection(&ray, &mut temp_ii) {

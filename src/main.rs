@@ -5,9 +5,6 @@ mod pixelbuffer;
 mod camera; 
 mod object;
 mod scene;
-use crossterm::cursor::{Hide, Show};
-use crossterm::ExecutableCommand;
-use std::io::stdout;
 
 fn main() {
     let width = 80;
@@ -22,12 +19,12 @@ fn main() {
                     },   
         objects: vec![
             Box::new(object::sphere::Sphere {
-                center: vector::Vec3f { x:5.0, y:20.0, z:0.0 },
+                center: vector::Vec3f { x:-5.0, y:20.0, z:0.0 },
                 radius: 7.0,
                 reflective: false,
             }),
             Box::new(object::sphere::Sphere {
-                center: vector::Vec3f { x:-5.0, y:20.0, z:0.0 },
+                center: vector::Vec3f { x:5.0, y:20.0, z:0.0 },
                 radius: 7.0,
                 reflective: false,
             }),
@@ -39,8 +36,6 @@ fn main() {
             grayscale: String::from(" .:-=+*#%@").chars().collect::<Vec<char>>(),
         },
     };
-    stdout().execute(Hide).expect("");
     scene.render(&mut pixelbuffer);
     pixelbuffer.display();
-    stdout().execute(Show).expect("");
 }
