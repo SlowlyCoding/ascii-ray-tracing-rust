@@ -1,14 +1,12 @@
-use crossterm::cursor::MoveTo;
-use crossterm::ExecutableCommand;
-use std::io::stdout;
+use crate::terminal;
 
 pub struct PixelBuffer {
-    pub width: i32,
-    pub height: i32,
+    pub width: u16,
+    pub height: u16,
     pub pixels: Vec<char>,
 }
 // create new pixelpuffer and fill the pixels with a character
-pub fn new(width: i32, height: i32) -> PixelBuffer {
+pub fn new(width: u16, height: u16) -> PixelBuffer {
     let mut pixelbuffer = PixelBuffer {
         width,
         height,
@@ -25,13 +23,13 @@ impl PixelBuffer {
                self.pixels.push(c);
        }
    }
-   pub fn assign(&mut self, c: char, index: i32) {
+   pub fn assign(&mut self, c: char, index: u16) {
        self.pixels[index as usize] = c;
 
    }
    pub fn display(&self) {
-       // go to the top left of the terminal
-       stdout().execute(MoveTo(0, 0)).expect("failed to move cursor");
+       // go to the top left corner
+       terminal::goto(0, 0);
        // print pixelbuffer
        for y in 0..self.height {
            for x in 0..self.width {
