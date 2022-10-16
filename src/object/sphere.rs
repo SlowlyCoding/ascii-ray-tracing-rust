@@ -1,3 +1,4 @@
+use super::Object;
 use crate::vector;
 use crate::ray;
 use crate::scene;
@@ -5,10 +6,11 @@ use crate::scene;
 pub struct Sphere {
     pub center: vector::Vec3f,
     pub radius: f64,
+    pub reflective: bool,
 }
 
-impl Sphere {
-    pub fn intersection(&self, ray: &ray::Ray, ii: &mut scene::IntersectionInformation) -> bool {
+impl Object for Sphere {
+    fn intersection(&self, ray: &ray::Ray, ii: &mut scene::IntersectionInformation) -> bool {
         let a = vector::dot(&ray.direction, &ray.direction);
         let b = 2.0 * vector::dot(&ray.direction, &(ray.origin-self.center));
         let c = vector::dot(&(ray.origin-self.center), &(ray.origin-self.center)) - self.radius*self.radius;
@@ -20,6 +22,7 @@ impl Sphere {
             if t > ray.min_t && t < ray.max_t {
                 ii.point = ray.point(t);
                 ii.normal = (ray.point(t)-self.center).normalize();
+                ii.reflective_surface = self.reflective;
                 return true;
             }
         }

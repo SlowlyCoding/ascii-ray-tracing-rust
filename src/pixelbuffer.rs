@@ -1,3 +1,7 @@
+use crossterm::cursor::MoveTo;
+use crossterm::ExecutableCommand;
+use std::io::stdout;
+
 pub struct PixelBuffer {
     pub width: i32,
     pub height: i32,
@@ -14,6 +18,7 @@ pub fn new(width: i32, height: i32) -> PixelBuffer {
     return pixelbuffer;
 }
 
+// fill(), assign() and display()
 impl PixelBuffer {
    pub fn fill(&mut self, c: char) {
        for _ in 0..self.width*self.height {
@@ -25,6 +30,9 @@ impl PixelBuffer {
 
    }
    pub fn display(&self) {
+       // go to the top left of the terminal
+       stdout().execute(MoveTo(0, 0)).expect("failed to move cursor");
+       // print pixelbuffer
        for y in 0..self.height {
            for x in 0..self.width {
                print!("{}", self.pixels[(y*self.width+x) as usize]);
