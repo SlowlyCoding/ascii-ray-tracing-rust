@@ -1,16 +1,14 @@
-use std::{thread, time};
 mod terminal;
 mod options;
 mod vector;
 mod ray;
+mod clock;
 mod pixelbuffer;
 mod camera; 
 mod object;
 mod scene;
 
 fn main() {
-    //let width = 80;
-    //let height = 35;
     let (width, height) = terminal::get_size();
     let mut pixelbuffer = pixelbuffer::new( width, height );
     let mut scene = scene::Scene {
@@ -44,17 +42,23 @@ fn main() {
             grayscale: String::from(" .:-=+*#%@").chars().collect::<Vec<char>>(),
         },
     };
+
+    let mut clock = clock::new(0);
     terminal::show_cursor(false);
     let mut angle: f64 = 0.0;
     while angle < 8.*3.14 {
+        clock.start();
         scene.camera.view_point.x = angle.cos()*30.;
         scene.camera.view_point.y = angle.sin()*30.;
         scene.camera.view_direction = (vector::Vec3f{x:0.,y:0.,z:0.}-scene.camera.view_point).normalize();
+        angle += 2.0 * clock.frametime;
 
         scene.render(&mut pixelbuffer);
+        clock.finished_render();
         pixelbuffer.display();
-        thread::sleep(time::Duration::from_millis(15));
-        angle += 0.03;
+        clock.finished_display();
+        clock.finished_frame();
+        clock.show_stats();
     }
     terminal::show_cursor(true);
 }

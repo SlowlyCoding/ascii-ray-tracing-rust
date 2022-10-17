@@ -9,7 +9,7 @@ pub fn goto(x: u16, y: u16) {
 
 pub fn get_size() -> (u16, u16) {
     let (width, height) = size().expect("error getting terminal size");
-    (width, height-1)
+    (width, height-2)
 
 }
 
