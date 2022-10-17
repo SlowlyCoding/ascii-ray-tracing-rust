@@ -52,8 +52,8 @@ impl Clock {
         println!("fps: {:.0} | frame: {:.2}ms | render: {:.2}ms | display : {:.2}ms                 ", 
                  1./self.frametime, 
                  self.frametime*1000.0, 
-                 self.displaytime*1000.0,
-                 self.rendertime*1000.0);
+                 self.rendertime*1000.0,
+                 self.displaytime*1000.0);
     }
 
 }
