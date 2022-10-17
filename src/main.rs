@@ -46,7 +46,7 @@ fn main() {
     };
     terminal::show_cursor(false);
     let mut angle: f64 = 0.0;
-    while angle < 4.*3.14 {
+    while angle < 8.*3.14 {
         scene.camera.view_point.x = angle.cos()*30.;
         scene.camera.view_point.y = angle.sin()*30.;
         scene.camera.view_direction = (vector::Vec3f{x:0.,y:0.,z:0.}-scene.camera.view_point).normalize();
