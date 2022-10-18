@@ -2,6 +2,7 @@ use std::time::{Duration, Instant};
 use std::thread;
 
 pub struct Clock {
+    pub fps_limit: u64,
     pub t_start: Instant,
     pub t_render: Instant,
     pub t_display: Instant,
@@ -10,10 +11,10 @@ pub struct Clock {
     pub rendertime: f64,
     pub displaytime: f64,
     pub frametime: f64,
-    pub fps_limit: u64
 }
 pub fn new(fps_limit: u64) -> Clock{
     Clock {
+        fps_limit,
         t_start: Instant::now(),
         t_render: Instant::now(),
         t_display: Instant::now(), 
@@ -21,7 +22,6 @@ pub fn new(fps_limit: u64) -> Clock{
         rendertime: 0.0,
         displaytime: 0.0,
         frametime: 0.0,
-        fps_limit,
     }
 }
 
@@ -42,18 +42,18 @@ impl Clock {
         self.frametime = (self.t_frame - self.t_start).as_micros() as f64 / 1000000.;
 
         // limiting fps
-        if self.fps_limit != 0{
+        if self.fps_limit != 0 {
             sleep( (1000.0/self.fps_limit as f64 - self.frametime*1000.0) as u64 );
             self.t_frame = Instant::now();
             self.frametime = (self.t_frame - self.t_start).as_micros() as f64 / 1000000.;
         }
     }
-    pub fn show_stats(&self) {
-        println!("fps: {:.0} | frame: {:.2}ms | render: {:.2}ms | display : {:.2}ms                 ", 
+    pub fn display_stats(&self) {
+        println!("  fps: {:.0} | render: {:.2}ms | display: {:.2}ms | frame : {:.2}ms       ", 
                  1./self.frametime, 
-                 self.frametime*1000.0, 
                  self.rendertime*1000.0,
-                 self.displaytime*1000.0);
+                 self.displaytime*1000.0,
+                 self.frametime*1000.0);
     }
 
 }

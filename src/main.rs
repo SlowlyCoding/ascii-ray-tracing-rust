@@ -13,57 +13,81 @@ fn main() {
     let (width, height) = terminal::get_size();
     let mut pixelbuffer = pixelbuffer::new( width, height );
     let mut scene = scene::Scene {
-        camera: camera::Camera {
-                    view_point:     vector::Vec3f { x:0.0, y:0.0, z:0.0 },
-                    view_direction: vector::Vec3f { x:0.0, y:1.0, z:0.0 },
-                    view_up:        vector::Vec3f { x:0.0, y:0.0, z:1.0 },
-                    fov: 75.0,
-                    },   
+        camera: camera::new (
+                    vector::Vec3f { x:30.0, y:-30.0, z:10.0 },
+                    0.0, -0.7,
+                    75.0,
+                    ),   
         objects: vec![
-            // Box::new(object::cube::Cube {
-            //     bottom_left_front: vector::Vec3f { x:-5.0, y:-5.0, z:-5.0 },
-            //     top_right_back: vector::Vec3f { x:5.0, y:5.0, z:5.0 },
-            //     reflective: false,
-            // }),
+            Box::new(object::triangle::Triangle {
+                p1: vector::Vec3f { x:-20.0, y:-20.0, z:0.0 },
+                p2: vector::Vec3f { x:20.0, y:-20.0, z:0.0 },
+                p3: vector::Vec3f { x:20.0, y:20.0, z:0.0 },
+                reflective: false,
+            }),
+            Box::new(object::triangle::Triangle {
+                p1: vector::Vec3f { x:-20.0, y:-20.0, z:0.0 },
+                p2: vector::Vec3f { x:20.0, y:20.0, z:0.0 },
+                p3: vector::Vec3f { x:-20.0, y:20.0, z:0.0 },
+                reflective: false,
+            }),
+            Box::new(object::triangle::Triangle {
+                p1: vector::Vec3f { x:-20.0, y:20.0, z:2.0 },
+                p2: vector::Vec3f { x:20.0, y:20.0, z:2.0 },
+                p3: vector::Vec3f { x:20.0, y:20.0, z:10.0 },
+                reflective: true,
+            }),
+            Box::new(object::triangle::Triangle {
+                p1: vector::Vec3f { x:-20.0, y:20.0, z:2.0 },
+                p2: vector::Vec3f { x:-20.0, y:20.0, z:10.0 },
+                p3: vector::Vec3f { x:20.0, y:20.0, z:10.0 },
+                reflective: true,
+            }),
+            Box::new(object::cube::Cube {
+                bottom_left_front: vector::Vec3f { x:-3.0, y:-3.0, z:0.0 },
+                top_right_back: vector::Vec3f { x:3.0, y:3.0, z:6.0 },
+                reflective: false,
+            }),
+            Box::new(object::sphere::Sphere {
+                center: vector::Vec3f { x:-8.0, y:15.0, z:2.0 },
+                radius: 2.0,
+                reflective: false,
+            }),
+            Box::new(object::sphere::Sphere {
+                center: vector::Vec3f { x:13.0, y:10.0, z:2.0 },
+                radius: 2.0,
+                reflective: false,
+            }),
+            Box::new(object::sphere::Sphere {
+                center: vector::Vec3f { x:-10.0, y:-14.0, z:2.0 },
+                radius: 2.0,
+                reflective: false,
+            }),
         ],
-        light: vector::Vec3f { x:0.0, y:0.0, z:0.0 },
+        light: vector::Vec3f { x:rand::thread_rng().gen_range(-20.0..20.0), y:rand::thread_rng().gen_range(-20.0..20.0), z:20.0 },
         options: options::Options {
-            max_ray_bounces: 5,
+            camera_move_speed: 35.0,
+            camera_tilt_speed: 5.0,
+            fps_limit: 60, // 0 to disable fps_limit
             shadows_enabled: true,
             grayscale: String::from(" .:-=+*#%@").chars().collect::<Vec<char>>(),
         },
     };
-    let mut rng = rand::thread_rng();
-    for _ in 0..=30 {
-        scene.objects.push(
-            Box::new(object::sphere::Sphere {
-                center: vector::Vec3f { 
-                    x:(rng.gen_range(-20.0..20.0)), 
-                    y:(rng.gen_range(-20.0..20.0)), 
-                    z:(rng.gen_range(-20.0..20.0)), 
-                },
-                radius: 2.5,
-                reflective: false,
-            }),
-            );
-    }
+    let mut clock = clock::new(scene.options.fps_limit);
 
-    let mut clock = clock::new(60);
     terminal::show_cursor(false);
-    let mut angle: f64 = 0.0;
-    while angle < 8.*3.14 {
+    terminal::raw_mode(true);
+    let mut run = true;
+    while run {
         clock.start();
-        scene.camera.view_point.x = angle.cos()*30.;
-        scene.camera.view_point.y = angle.sin()*30.;
-        scene.camera.view_direction = (vector::Vec3f{x:0.,y:0.,z:0.}-scene.camera.view_point).normalize();
-        angle += 1.5 * clock.frametime;
-
         scene.render(&mut pixelbuffer);
         clock.finished_render();
         pixelbuffer.display();
         clock.finished_display();
+        run = terminal::handle_events(&mut scene, clock.frametime);
         clock.finished_frame();
-        clock.show_stats();
+        clock.display_stats();
     }
+    terminal::raw_mode(false);
     terminal::show_cursor(true);
 }
