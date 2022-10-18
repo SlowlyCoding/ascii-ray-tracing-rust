@@ -17,8 +17,8 @@ fn main() {
     /* creating scene */
     let mut scene = scene::Scene {
         camera: camera::new (
-                    vector::Vec3f { x:30.0, y:-30.0, z:10.0 },
-                    0.0, -0.7,
+                    vector::Vec3f { x:-19.0, y:19.0, z:7.0 },
+                    -0.1, 0.8,
                     75.0,
                     ),   
         objects: vec![
