@@ -10,6 +10,7 @@ pub struct Cube {
 }
 
 impl Object for Cube {
+    // slab method
     fn intersection(&self, ray: &ray::Ray, ii: &mut scene::IntersectionInformation) -> bool {
         let mut t_min = ray.min_t;
         let mut t_max = ray.max_t;

@@ -28,6 +28,8 @@ pub fn new(
 }
 
 impl Camera {
+    // when the camera orientation gets changed, all camera vectors necessery for rendering need to
+    // be updated aswell
     pub fn view_angle_updated(&mut self) {
         self.view_direction.x = self.view_angle_z.sin();
         self.view_direction.y = self.view_angle_z.cos();
@@ -40,7 +42,7 @@ impl Camera {
         self.view_left.z = self.view_angle_x.sin();
     }
     // pixel0: top left corrner of camera view frame
-    // pixel_step: vector that goes from one pixel to the next one in x direction or y direction
+    // pixel_step: vector that goes from one pixel to the next one in x or y direction
     pub fn calculate_vectors(&self, pixelbuffer: &pixelbuffer::PixelBuffer) -> (vector::Vec3f, vector::Vec3f, vector::Vec3f) {
         let mut half_screen_x = vector::cross(&self.view_direction, &self.view_up);
         let mut half_screen_y = vector::cross(&self.view_direction, &half_screen_x).scale(2.0);

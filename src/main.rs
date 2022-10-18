@@ -10,8 +10,11 @@ mod scene;
 use rand::Rng;
 
 fn main() {
+    /* creating pixel buffer */
     let (width, height) = terminal::get_size();
     let mut pixelbuffer = pixelbuffer::new( width, height );
+
+    /* creating scene */
     let mut scene = scene::Scene {
         camera: camera::new (
                     vector::Vec3f { x:30.0, y:-30.0, z:10.0 },
@@ -19,48 +22,48 @@ fn main() {
                     75.0,
                     ),   
         objects: vec![
-            Box::new(object::triangle::Triangle {
+            Box::new(object::triangle::Triangle { // first ground triangle
                 p1: vector::Vec3f { x:-20.0, y:-20.0, z:0.0 },
                 p2: vector::Vec3f { x:20.0, y:-20.0, z:0.0 },
                 p3: vector::Vec3f { x:20.0, y:20.0, z:0.0 },
                 reflective: false,
             }),
-            Box::new(object::triangle::Triangle {
+            Box::new(object::triangle::Triangle { // second ground triangle
                 p1: vector::Vec3f { x:-20.0, y:-20.0, z:0.0 },
                 p2: vector::Vec3f { x:20.0, y:20.0, z:0.0 },
                 p3: vector::Vec3f { x:-20.0, y:20.0, z:0.0 },
                 reflective: false,
             }),
-            Box::new(object::triangle::Triangle {
+            Box::new(object::triangle::Triangle { // first mirror triangle
                 p1: vector::Vec3f { x:-20.0, y:20.0, z:2.0 },
                 p2: vector::Vec3f { x:20.0, y:20.0, z:2.0 },
                 p3: vector::Vec3f { x:20.0, y:20.0, z:10.0 },
                 reflective: true,
             }),
-            Box::new(object::triangle::Triangle {
+            Box::new(object::triangle::Triangle { // second mirror triangle
                 p1: vector::Vec3f { x:-20.0, y:20.0, z:2.0 },
                 p2: vector::Vec3f { x:-20.0, y:20.0, z:10.0 },
                 p3: vector::Vec3f { x:20.0, y:20.0, z:10.0 },
                 reflective: true,
             }),
-            Box::new(object::cube::Cube {
+            Box::new(object::cube::Cube { // center cube
                 bottom_left_front: vector::Vec3f { x:-3.0, y:-3.0, z:0.0 },
                 top_right_back: vector::Vec3f { x:3.0, y:3.0, z:6.0 },
-                reflective: false,
+                reflective: true,
             }),
-            Box::new(object::sphere::Sphere {
+            Box::new(object::sphere::Sphere { // sphere 1
                 center: vector::Vec3f { x:-8.0, y:15.0, z:2.0 },
                 radius: 2.0,
                 reflective: false,
             }),
-            Box::new(object::sphere::Sphere {
+            Box::new(object::sphere::Sphere { // sphere 2
                 center: vector::Vec3f { x:13.0, y:10.0, z:2.0 },
                 radius: 2.0,
                 reflective: false,
             }),
-            Box::new(object::sphere::Sphere {
-                center: vector::Vec3f { x:-10.0, y:-14.0, z:2.0 },
-                radius: 2.0,
+            Box::new(object::sphere::Sphere { // sphere 3
+                center: vector::Vec3f { x:-10.0, y:-14.0, z:3.0 },
+                radius: 3.0,
                 reflective: false,
             }),
         ],
@@ -73,8 +76,9 @@ fn main() {
             grayscale: String::from(" .:-=+*#%@").chars().collect::<Vec<char>>(),
         },
     };
-    let mut clock = clock::new(scene.options.fps_limit);
 
+    /* main loop*/
+    let mut clock = clock::new(scene.options.fps_limit);
     terminal::show_cursor(false);
     terminal::raw_mode(true);
     let mut run = true;

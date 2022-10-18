@@ -3,13 +3,14 @@ use std::thread;
 
 pub struct Clock {
     pub fps_limit: u64,
-    pub t_start: Instant,
-    pub t_render: Instant,
-    pub t_display: Instant,
-    pub t_frame: Instant,
-    // times in seconds
-    pub rendertime: f64,
-    pub displaytime: f64,
+    // time points
+    t_start: Instant,
+    t_render: Instant,
+    t_display: Instant,
+    t_frame: Instant,
+    // execution times for different tasks in seconds
+    rendertime: f64,
+    displaytime: f64,
     pub frametime: f64,
 }
 pub fn new(fps_limit: u64) -> Clock{
@@ -43,7 +44,9 @@ impl Clock {
 
         // limiting fps
         if self.fps_limit != 0 {
+            // sleep for the remaining frame time
             sleep( (1000.0/self.fps_limit as f64 - self.frametime*1000.0) as u64 );
+            // calculate new framtime
             self.t_frame = Instant::now();
             self.frametime = (self.t_frame - self.t_start).as_micros() as f64 / 1000000.;
         }
@@ -55,8 +58,8 @@ impl Clock {
                  self.displaytime*1000.0,
                  self.frametime*1000.0);
     }
-
 }
+
 pub fn sleep(millis: u64) {
     thread::sleep(Duration::from_millis(millis));
 }

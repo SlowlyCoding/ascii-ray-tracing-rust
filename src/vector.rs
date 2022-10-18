@@ -38,9 +38,11 @@ impl ops::Sub for Vec3f {
 
 // length(), normalize() and scale()
 impl Vec3f {
+    // returns the lenght of a vector
     pub fn length(&self) -> f64 {
         (self.x*self.x + self.y*self.y + self.z*self.z).sqrt()
     }
+    // normalizes a vector so that its length is 1
     pub fn normalize(&self) -> Vec3f {
         let l = self.length();
         Vec3f {
@@ -49,6 +51,7 @@ impl Vec3f {
             z: self.z/l,
         }
     }
+    // scales a vector using a scalar
     pub fn scale(&self, s: f64) -> Vec3f {
         Vec3f {
             x: self.x*s,
@@ -58,11 +61,11 @@ impl Vec3f {
     }
 }
 
-// dot product: dot(v1, v2)
+// dot product
 pub fn dot(v1: &Vec3f, v2: &Vec3f) -> f64 {
     v1.x*v2.x + v1.y*v2.y + v1.z*v2.z
 }
-// cross product: cross(v1, v2)
+// cross product
 pub fn cross(v1: &Vec3f, v2: &Vec3f) -> Vec3f {
     Vec3f {
         x: v1.y*v2.z - v1.z*v2.y,
