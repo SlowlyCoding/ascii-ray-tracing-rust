@@ -1,12 +1,13 @@
-# ASCII Ray Tracing 
+# ASCII Ray Tracing in Rust
 
 A simple ray tracer inspired by the "Ray Tracing in one weeked" book, which display the rendered scene using ascii.
 The camera can be moved around inside the scene.
 
-I had already written something similar in C++, but now im learning Rust and thought I could rewritte that project to learn more about the Rust programming language.
 
 <p align="center">
 <img src="https://github.com/SlowlyCoding/ascii-ray-tracing-rust/blob/master/gifs/video.gif">
+
+I had already written something similar in C++, but now im learning Rust and thought I could rewritte that project to learn more about the Rust programming language.
 
 ## Table of Contents
 
