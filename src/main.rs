@@ -1,3 +1,9 @@
+/*
+   Positive x coordinate is right
+   Positive y coordinate is forward
+   Positive z coordinate is up
+*/
+
 mod terminal;
 mod options;
 mod vector;
@@ -17,9 +23,10 @@ fn main() {
     /* creating scene */
     let mut scene = scene::Scene {
         camera: camera::new (
-                    vector::Vec3f { x:-19.0, y:19.0, z:7.0 },
-                    -0.1, 0.8,
-                    75.0,
+                    vector::Vec3f { x:-19.0, y:19.0, z:7.0 }, // camera position
+                    -0.1, // camera rotation up, down (in rad)
+                    0.8,// camera rotation left, right (in rad)
+                    75.0, // fov
                     ),   
         objects: vec![
             Box::new(object::triangle::Triangle { // first ground triangle
@@ -49,7 +56,7 @@ fn main() {
             Box::new(object::cube::Cube { // center cube
                 bottom_left_front: vector::Vec3f { x:-3.0, y:-3.0, z:0.0 },
                 top_right_back: vector::Vec3f { x:3.0, y:3.0, z:6.0 },
-                reflective: true,
+                reflective: false,
             }),
             Box::new(object::sphere::Sphere { // sphere 1
                 center: vector::Vec3f { x:-8.0, y:15.0, z:2.0 },

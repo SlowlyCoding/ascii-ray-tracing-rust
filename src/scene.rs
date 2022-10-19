@@ -30,7 +30,6 @@ impl IntersectionInformation {
 pub struct Scene {
     pub camera: camera::Camera,
     pub objects: Vec<Box<dyn object::Object>>,
-    // this ray tracer only supports 1 point light
     pub light: vector::Vec3f,
     pub options: options::Options,
 }
@@ -87,7 +86,7 @@ impl Scene {
         }
         pixel
     }
-    // intersects the ray with the whole scene and returns the closest hit
+    // intersects a ray with the whole scene and returns the closest hit
     pub fn closest_intersection(&self, ray: &ray::Ray, ii: &mut IntersectionInformation) -> bool {
         let mut any_intersection: bool = false;
         let mut temp_ii = IntersectionInformation::new_empty();

@@ -2,9 +2,12 @@ use crate::vector;
 use crate::pixelbuffer;
 
 pub struct Camera {
+    // camera position
     pub view_point: vector::Vec3f,
-    pub view_angle_x: f64,
-    pub view_angle_z: f64,
+    // orientation angles
+    pub view_angle_x: f64, // up, down
+    pub view_angle_z: f64, // left, right
+    // orientation vectors
     pub view_direction: vector::Vec3f,
     pub view_up: vector::Vec3f,
     pub view_left: vector::Vec3f,
@@ -28,7 +31,7 @@ pub fn new(
 }
 
 impl Camera {
-    // when the camera orientation gets changed, all camera vectors necessery for rendering need to
+    // when the camera orientation angles get changed, all camera vectors necessery for rendering need to
     // be updated aswell
     pub fn view_angle_updated(&mut self) {
         self.view_direction.x = self.view_angle_z.sin();
