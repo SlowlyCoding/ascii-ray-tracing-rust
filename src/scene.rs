@@ -36,12 +36,12 @@ pub struct Scene {
 
 impl Scene {
     pub fn render(&self, pixelbuffer: &mut pixelbuffer::PixelBuffer) {
-        // calculate vectors used for the rays that shoot through each pixels
+        // calculate vectors used by the rays that shoot through each pixels
         let (pixel0, pixel_step_x, pixel_step_y) = self.camera.calculate_vectors(&pixelbuffer);
         // loop through each pixel
         for y in 0..pixelbuffer.height {
             for x in 0..pixelbuffer.width {
-                // create a ray which shoots throgh that pixel
+                // create a ray for that pixel
                 let pixel = pixel0 + pixel_step_x.scale(x as f64) + pixel_step_y.scale(y as f64);
                 let ray = ray::new(self.camera.view_point, pixel.normalize());
                 // trace ray through the scene and assign the outputted char to the
@@ -65,19 +65,18 @@ impl Scene {
                 );
                 pixel = self.trace_ray(&reflected_ray);
             } else {
-                // if not we do shading
+                // if not, we do shading
                 let to_light = (self.light - ii.point).normalize();
                 if self.options.shadows_enabled {
                     // check if the ray going to the light intersects anything
                     let light_ray = ray::new(ii.point+to_light.scale(0.01), to_light);
                     if self.closest_intersection(&light_ray, &mut ii) {
                         // if it does the pixel is in shade
-                        pixel = ' ';
                         return pixel;
                     }
                 }
                 // if the pixel is not in shade or shadows are disabled 
-                // calculate pixel brightness
+                // calculate brightness that the hit object receives
                 let brightness = f64::max(0.0, vector::dot(&ii.normal, &to_light));
                 // choose the corresponding brightness character from the grayscale array
                 pixel = self.options.grayscale[(brightness*self.options.grayscale.len() as f64) as usize]

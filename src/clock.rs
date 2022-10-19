@@ -39,17 +39,14 @@ impl Clock {
         self.displaytime = (self.t_display - self.t_render).as_micros() as f64 / 1000000.;
     }
     pub fn finished_frame(&mut self) {
-        self.t_frame = Instant::now();
-        self.frametime = (self.t_frame - self.t_start).as_micros() as f64 / 1000000.;
-
         // limiting fps
         if self.fps_limit != 0 {
             // sleep for the remaining frame time
             sleep( (1000.0/self.fps_limit as f64 - self.frametime*1000.0) as u64 );
             // calculate new framtime
-            self.t_frame = Instant::now();
-            self.frametime = (self.t_frame - self.t_start).as_micros() as f64 / 1000000.;
         }
+        self.t_frame = Instant::now();
+        self.frametime = (self.t_frame - self.t_start).as_micros() as f64 / 1000000.;
     }
     pub fn display_stats(&self) {
         println!("  fps: {:.0} | render: {:.2}ms | display: {:.2}ms | frame : {:.2}ms       ", 

@@ -35,7 +35,7 @@ The camera can be moved around
 
 `← → ↑ ↓` - tilt camera
 
-`+ -` adjust camera FOV
+`+ -` - adjust camera FOV
 
 
 ## Configuration
