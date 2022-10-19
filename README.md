@@ -4,6 +4,9 @@ A simple ray tracer inspired by the "Ray Tracing in one weeked" book, which disp
 The camera can be moved around inside the scene.
 I had already written something similar in C++, but now im learning Rust and thought i could rewritte that project to learn more about the Rust programming language.
 
+<p align="center">
+<img src="https://github.com/SlowlyCoding/ascii-ray-tracing-rust/blob/master/gifs/video.gif">
+
 ## Table of Contents
 
 1. [Installation](#installation)
