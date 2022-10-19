@@ -33,9 +33,10 @@ The camera can be moved around
 
 `Q E` - up, down
 
-`← →` - tilt camera left, right
+`← → ↑ ↓` - tilt camera
 
-`↑ ↓` - tilt camera up, down
+`+ -` adjust camera FOV
+
 
 ## Configuration
 
