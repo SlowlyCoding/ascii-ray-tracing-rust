@@ -2,7 +2,8 @@
 
 A simple ray tracer inspired by the "Ray Tracing in one weeked" book, which display the rendered scene using ascii.
 The camera can be moved around inside the scene.
-I had already written something similar in C++, but now im learning Rust and thought i could rewritte that project to learn more about the Rust programming language.
+
+I had already written something similar in C++, but now im learning Rust and thought I could rewritte that project to learn more about the Rust programming language.
 
 <p align="center">
 <img src="https://github.com/SlowlyCoding/ascii-ray-tracing-rust/blob/master/gifs/video.gif">
@@ -15,15 +16,11 @@ I had already written something similar in C++, but now im learning Rust and tho
 
 ## Installation
 
-Make sure you have [rust](https://www.rust-lang.org/tools/install) installed
+Make sure you have [Rust](https://www.rust-lang.org/tools/install) installed
 
 ```shell
 git clone https://github.com/SlowlyCoding/ascii-ray-tracer
-```
-```shell
 cd ascii-ray-tracer
-```
-```shell
 cargo run
 ```
 
@@ -31,10 +28,13 @@ cargo run
 
 The camera can be moved around
 
-`W``A``S``D` - forwards, left, backwards, right
-`Q``E` - up, down
-`←``→` - tilt camera left, right
-`↑``↓` - tilt camera up, down
+`W A S D` - forwards, left, backwards, right
+
+`Q E` - up, down
+
+`← →` - tilt camera left, right
+
+`↑ ↓` - tilt camera up, down
 
 ## Configuration
 
