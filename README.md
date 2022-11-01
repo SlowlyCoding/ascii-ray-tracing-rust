@@ -20,8 +20,8 @@ I had already written something similar in C++, but now im learning Rust and tho
 Make sure you have [Rust](https://www.rust-lang.org/tools/install) installed
 
 ```shell
-git clone https://github.com/SlowlyCoding/ascii-ray-tracer
-cd ascii-ray-tracer
+git clone https://github.com/SlowlyCoding/ascii-ray-tracing-rust
+cd ascii-ray-tracing-rust
 cargo run
 ```
 
@@ -37,6 +37,7 @@ The camera can be moved around
 
 `+ -` - adjust camera FOV
 
+`Q` - quit
 
 ## Configuration
 
