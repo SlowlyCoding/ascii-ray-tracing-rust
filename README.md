@@ -37,7 +37,7 @@ The camera can be moved around
 
 `+ -` - adjust camera FOV
 
-`Q` - quit
+`Esc` - quit
 
 ## Configuration
 
