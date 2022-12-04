@@ -23,9 +23,15 @@ pub fn new(
         view_point,
         view_angle_x,
         view_angle_z,
-        view_direction: vector::Vec3f { x:view_angle_z.sin(), y:view_angle_z.cos(), z:view_angle_x.sin() },
-        view_up: vector::Vec3f { x:view_angle_z.sin(), y:view_angle_z.cos(), z:view_angle_x.cos() },
-        view_left: vector::Vec3f { x:(view_angle_z+(3.14/2.0)).sin(), y:(view_angle_z+(3.14/2.0)).cos(), z:view_angle_x.sin() },
+        view_direction: vector::Vec3f { x:view_angle_z.sin()*view_angle_x.cos(), 
+                                        y:view_angle_z.cos()*view_angle_x.cos(), 
+                                        z:view_angle_x.sin() },
+        view_up: vector::Vec3f { x:view_angle_z.sin()*(view_angle_x+1.571).cos(), 
+                                 y:view_angle_z.cos()*(view_angle_x+1.571).cos(), 
+                                 z:(view_angle_x+1.571).sin() },
+        view_left: vector::Vec3f { x:(view_angle_z+1.571).sin()*view_angle_x.cos(), 
+                                   y:(view_angle_z+1.571).cos()*view_angle_x.cos(), 
+                                   z:view_angle_x.sin() },
         fov,
     }
 }
@@ -34,14 +40,14 @@ impl Camera {
     // when the camera orientation angles get changed, all camera vectors necessery for rendering need to
     // be updated aswell
     pub fn view_angle_updated(&mut self) {
-        self.view_direction.x = self.view_angle_z.sin();
-        self.view_direction.y = self.view_angle_z.cos();
+        self.view_direction.x = self.view_angle_z.sin() * self.view_angle_x.cos();
+        self.view_direction.y = self.view_angle_z.cos() * self.view_angle_x.cos();
         self.view_direction.z = self.view_angle_x.sin();
-        self.view_up.x = self.view_angle_z.sin();
-        self.view_up.y = self.view_angle_z.cos();
-        self.view_up.z = self.view_angle_x.cos();
-        self.view_left.x = (self.view_angle_z+(3.14/2.0)).sin();
-        self.view_left.y = (self.view_angle_z+(3.14/2.0)).cos();
+        self.view_up.x = self.view_angle_z.sin() * (self.view_angle_x+1.571).cos();
+        self.view_up.y = self.view_angle_z.cos() * (self.view_angle_x+1.571).cos();
+        self.view_up.z = (self.view_angle_x+1.571).sin();
+        self.view_left.x = (self.view_angle_z+1.571).sin() * self.view_angle_x.cos();
+        self.view_left.y = (self.view_angle_z+1.571).cos() * self.view_angle_x.cos();
         self.view_left.z = self.view_angle_x.sin();
     }
     // pixel0: top left corrner of camera view frame
